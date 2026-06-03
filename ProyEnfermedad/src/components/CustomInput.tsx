@@ -36,7 +36,6 @@ export default function CustomInput({type, placeholder, value, onchange, inputSt
     return (
         <View style={styles.wrapper}>  
 
-        /**SE AGREGA EL ESTILO QUE SE CREO ABAJO */
         <View style={[styles.inputContainer, error && styles.inputError]}>
             <Ionicons name={icon as any} size={14} color="#b2b2b2" />
             
