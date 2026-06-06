@@ -2,19 +2,25 @@ import { View, Text, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/StackNavigator";
 import { CustomButton } from "../components/CustomButton";
+import { useAuth } from "../contexts/AuthContext";
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
+
 export default function HomeScreen({ route, navigation }: Props) {
+    const {user} = useAuth();
     const { email } = route.params;
 
+    const handleGoToSettings = () => {
+        navigation.navigate('UserTabs');
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.title}>¡Bienvenido!</Text>
-            <Text style={styles.subtitle}>{email}</Text>
+            <Text style={styles.subtitle}>{user?.email}</Text>
             <CustomButton
                 text="Ver Configuración"
-                onPress={() => navigation.navigate('UserTabs')}
+                onPress={handleGoToSettings}
                 variant="primary"
             />
         </View>

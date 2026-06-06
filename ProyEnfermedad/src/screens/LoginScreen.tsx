@@ -4,17 +4,26 @@ import { CustomButton, CustomButtonCrear } from "../components/CustomButton";
 import { useState } from "react";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { StatusBar } from 'expo-status-bar';
+import { useAuth } from "../contexts/AuthContext";
 
 export default function LoginScreen({ navigation }: any) {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState("eduardo@universidad.edu");
     const [password, setPassword] = useState("");
 
+    const {login} = useAuth();
+
+
     const handleLogin = () => {
-        try {
+    try {
+        const allowed = login(email);
+        if (allowed) {
             navigation.navigate("Home", { email });
-        } catch (error) {
-            console.error("Error al iniciar sesión:", error);
+        } else {
+            alert("No tiene acceso");
         }
+    } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+    }
     }
 
     return (
