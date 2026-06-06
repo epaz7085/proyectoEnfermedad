@@ -1,99 +1,99 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import {TextInput, TouchableOpacity, View, Text, StyleSheet, KeyboardType } from "react-native";
+import { TextInput, TouchableOpacity, View, Text, StyleSheet, KeyboardType } from "react-native";
 
+type InputType = 'password' | 'email' | 'text' | 'phone';
 
 type Props = {
-    type: 'password' | 'email';
+    type: InputType;
     placeholder: string;
-    value : string;
+    value: string;
     onchange: (text: string) => void;
     inputStyle?: object;
 };
 
-export default function CustomInput({type, placeholder, value, onchange, inputStyle }: Props) {
+export default function CustomInput({ type, placeholder, value, onchange, inputStyle }: Props) {
 
     const [isSecureText, setIsSecureText] = useState(type === "password");
     const isPasswordType = type === "password";
 
-    const getError = () => {
-        if(type === "email" && !value.includes("@") && value.length){
-            return "El correo no es valido";
+    const getError = (): string | undefined => {
+        if (type === "email" && value.length > 0 && !value.includes("@")) {
+            return "El correo no es válido";
         }
-
-        if (type === "password" && value.length < 6  && value.length){
+        if (type === "password" && value.length > 0 && value.length < 6) {
             return "La contraseña debe tener al menos 6 caracteres";
         }
+        if (type === "phone" && value.length > 0 && !/^\d{8,}$/.test(value)) {
+            return "El teléfono debe tener al menos 8 dígitos";
+        }
+        return undefined;
     };
+
     const error = getError();
 
-    const keyboardType : KeyboardType = type === "email" ? "email-address" :
-                                        "default";
+    const keyboardType: KeyboardType =
+        type === "email" ? "email-address" :
+        type === "phone" ? "phone-pad" :
+        "default";
 
-    const icon = type === "email" ? "mail-outline" : "lock-closed-outline";
-    <Ionicons name={icon} size={14} color="#b2b2b2" />
+    const icon =
+        type === "email"    ? "mail-outline" :
+        type === "password" ? "lock-closed-outline" :
+        type === "phone"    ? "call-outline" :
+        "person-outline";
 
     return (
-        <View style={styles.wrapper}>  
-
-        <View style={[styles.inputContainer, error && styles.inputError]}>
-            <Ionicons name={icon as any} size={14} color="#b2b2b2" />
-            
-            <TextInput
-                placeholder={placeholder}
-                placeholderTextColor="#b2b2b2"
-                value={value}
-                onChangeText={onchange}
-                style={[styles.input, inputStyle]}
-                secureTextEntry={isSecureText}
-                keyboardType={keyboardType}
-
-            />
-
-            { isPasswordType &&<TouchableOpacity 
-                onPress={() => { 
-                    setIsSecureText(!isSecureText); }}>
-                
-                <Ionicons name={isSecureText ? "eye" : "eye-off"} size={14} color="#b2b2b2"/>
-            </TouchableOpacity>}
-        </View>
-        {<Text style={styles.inputError}>{error}</Text>}
+        <View style={styles.wrapper}>
+            <View style={[styles.inputContainer, error ? styles.inputErrorBorder : null]}>
+                <Ionicons name={icon as any} size={14} color="#b2b2b2" />
+                <TextInput
+                    placeholder={placeholder}
+                    placeholderTextColor="#b2b2b2"
+                    value={value}
+                    onChangeText={onchange}
+                    style={[styles.input, inputStyle]}
+                    secureTextEntry={isSecureText}
+                    keyboardType={keyboardType}
+                />
+                {isPasswordType && (
+                    <TouchableOpacity onPress={() => setIsSecureText(!isSecureText)}>
+                        <Ionicons name={isSecureText ? "eye" : "eye-off"} size={14} color="#b2b2b2" />
+                    </TouchableOpacity>
+                )}
+            </View>
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     wrapper: {
         marginBottom: 10,
     },
     inputContainer: {
-       flexDirection: 'row',
-       alignItems: 'center',
-       marginTop: -5,
-       borderColor: '#555555',
-       borderWidth: 1,  
-       borderRadius: 15,
-       backgroundColor: 'transparent',
-       paddingLeft: 12,
-    }, 
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: -5,
+        borderColor: '#555555',
+        borderWidth: 1,
+        borderRadius: 15,
+        backgroundColor: 'transparent',
+        paddingLeft: 12,
+    },
     input: {
-        width: '80%', 
+        flex: 1,
         paddingVertical: 10,
         paddingHorizontal: 5,
         color: '#b2b2b2',
-
-
     },
-    inputError: {
-        color: 'red',
+    inputErrorBorder: {
         borderColor: 'red',
-        marginTop: 5,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: 4,
+        marginLeft: 4,
     },
 });
-
-
-
-
-
-
