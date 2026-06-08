@@ -5,6 +5,8 @@ import { useState } from "react";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { StatusBar } from 'expo-status-bar';
 import { useAuth } from "../contexts/AuthContext";
+import CustomIconCircle from '../components/CustomIconCircle';
+import CustomTitle from '../components/CustomTitle';
 
 export default function LoginScreen({ navigation }: any) {
     const [email, setEmail] = useState("eduardo@universidad.edu");
@@ -30,9 +32,8 @@ export default function LoginScreen({ navigation }: any) {
         <View style={styles.container}>
             <View style={styles.card}>
 
-                <View style={styles.iconCircle}>
-                    <FontAwesome5 name="heartbeat" size={30} color="#1b4332" />
-                </View>
+               <CustomIconCircle iconName="heartbeat" />
+                <CustomTitle title="Iniciar Sesión" subtitle="Sistema de Gestión Médica" />
 
                 <Text style={styles.title}>Iniciar Sesión</Text>
                 <Text style={styles.subtitle}>Sistema de Gestión Médica</Text>

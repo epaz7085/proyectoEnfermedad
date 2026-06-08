@@ -6,6 +6,10 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { CustomButton, CustomButtonCrear } from '../components/CustomButton';
 import CustomInput from '../components/CustomInput';
 import { RootStackParamList } from '../navigation/StackNavigator';
+import { useAuth } from '../contexts/AuthContext';
+import CustomIconCircle from '../components/CustomIconCircle';
+import CustomTitle from '../components/CustomTitle';
+
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
@@ -16,6 +20,7 @@ export default function RegisterScreen({ navigation }: Props) {
     const [password, setPassword]               = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const { register } = useAuth();
     const isFormValid = (): boolean => {
         if (!name.trim()) return false;
         if (!phone.trim() || !/^\d{8,}$/.test(phone)) return false;
@@ -38,6 +43,7 @@ export default function RegisterScreen({ navigation }: Props) {
             Alert.alert("Error", "Por favor corrige los errores antes de continuar.");
             return;
         }
+        register(name, phone, email, password);
         navigation.navigate("Home", { email });
     };
 
@@ -53,13 +59,10 @@ export default function RegisterScreen({ navigation }: Props) {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.card}>
-                    <View style={styles.iconCircle}>
-                        <FontAwesome5 name="heartbeat" size={30} color="#1b4332" />
-                    </View>
 
-                    <Text style={styles.title}>Crear Cuenta</Text>
-                    <Text style={styles.subtitle}>Sistema de Gestión Médica</Text>
-
+                    <CustomIconCircle iconName="heartbeat" />
+                    <CustomTitle title="Crear Cuenta" subtitle="Sistema de Gestión Médica" />
+             
                     <CustomInput
                         type="text"
                         placeholder="Nombre completo"
