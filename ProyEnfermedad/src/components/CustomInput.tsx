@@ -27,6 +27,9 @@ export default function CustomInput({ type, placeholder, value, onchange, inputS
         if (type === "phone" && value.length > 0 && !/^\d{8,}$/.test(value)) {
             return "El teléfono debe tener al menos 8 dígitos";
         }
+        if (type === "text" && value.length > 0 && /\d/.test(value)) {
+            return "El nombre no debe contener números";
+        }
         return undefined;
     };
 
