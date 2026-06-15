@@ -1,5 +1,9 @@
 import { createContext, useState, ReactNode, useContext } from "react";
-
+// LIBRERIAS
+/**npm i npm i i18n@0.15.3 i18n-js@^4.5.1
+ * npm install
+ * npm i @react-native-async-storage/async-storage@2.2.0
+ */
 
 // Tipado de usuario para el contexto de autenticación
 type User = {
