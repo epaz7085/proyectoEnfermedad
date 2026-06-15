@@ -3,12 +3,14 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/StackNavigator";
 import { CustomButton } from "../components/CustomButton";
 import { useAuth } from "../contexts/AuthContext";
+import { i18n, useLanguage } from "../contexts/LanguageContext";
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 
 export default function HomeScreen({ route, navigation }: Props) {
     const {user} = useAuth();
+    const {changeLanguage, language, clearLanguage} = useLanguage();
     const { email } = route.params;
 
     const handleGoToSettings = () => {
@@ -16,12 +18,23 @@ export default function HomeScreen({ route, navigation }: Props) {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>¡Bienvenido!</Text>
+            <Text style={styles.title}>{i18n.t('welcome')}</Text>
             <Text style={styles.subtitle}>{user?.email}</Text>
             <CustomButton
-                text="Ver Configuración"
+                text={i18n.t('gotoSettings')}
                 onPress={handleGoToSettings}
                 variant="primary"
+            />
+             <CustomButton
+                text={i18n.t('Limpiar Idioma')}
+                onPress={clearLanguage}
+                variant="primary"
+            />
+            <Text style={styles.subtitle}> Current Language: {language}</Text>
+            <CustomButton
+                text={i18n.t('changeLanguage')}
+                onPress={() => (changeLanguage(language === 'en' ? 'es' : 'en'))}
+                variant="secondary"
             />
         </View>
     );

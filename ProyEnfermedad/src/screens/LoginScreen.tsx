@@ -5,6 +5,7 @@ import { useState } from "react";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { StatusBar } from 'expo-status-bar';
 import { useAuth } from "../contexts/AuthContext";
+import { i18n } from "../contexts/LanguageContext";
 import CustomIconCircle from '../components/CustomIconCircle';
 import CustomTitle from '../components/CustomTitle';
 
@@ -53,12 +54,13 @@ export default function LoginScreen({ navigation }: any) {
 
                 <View style={{ alignItems: 'center' }}>
                     <CustomButton
-                        text="Iniciar Sesión"
+                        text= {i18n.t('signIn')}
                         onPress={handleLogin}
                         variant="primary"
                     />
                     <CustomButtonCrear
-                        text="Crear Cuenta"
+                        text={i18n.t('signUp')}
+
                         onPress={() => navigation.navigate("Register")}
                         variant="secondary"
                     />
