@@ -5,6 +5,7 @@
         signUp: "Sign Up",
         gotoSettings: "Go to Settings",
         changeLanguage: "Change Language",
+        clearLanguage: "Clear Language",
 
     },
     es: {
@@ -12,6 +13,7 @@
         signIn: "Iniciar Sesión",
         signUp: "Registrarse",
         gotoSettings: "Ir a Configuración",
-        changeLanguage: "Cambiar Idioma"
+        changeLanguage: "Cambiar Idioma",
+        clearLanguage: "Limpiar Idioma",
     }
 };
