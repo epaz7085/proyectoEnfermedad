@@ -1,5 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useTheme } from "../contexts/ThemeContext";
+import { ThemeColors } from "../utils/types/ThemeColors";
 
 type CustomButtonProps = {
     text: string;
@@ -8,7 +10,8 @@ type CustomButtonProps = {
 }
 
 export const CustomButton = ({ text, onPress, variant = "primary" }: CustomButtonProps) => {
-    const styles = getStyles(variant);
+    const {colors} = useTheme();
+    const styles = getStyles(variant, colors);
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>{text}</Text>
@@ -18,8 +21,9 @@ export const CustomButton = ({ text, onPress, variant = "primary" }: CustomButto
 
 
 export const CustomButtonCrear = ({ text, onPress, variant = "secondary" }: CustomButtonProps) => {
-    const styles = getStyles(variant);
-    return (
+    const {colors} = useTheme();
+    const styles = getStyles(variant, colors);
+    return ( 
         <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>{text}</Text>
         </TouchableOpacity>
@@ -28,19 +32,19 @@ export const CustomButtonCrear = ({ text, onPress, variant = "secondary" }: Cust
 
 
 
-const getStyles = (variant: "primary" | "secondary" | "tertiary") => StyleSheet.create({
+const getStyles = (variant: "primary" | "secondary" | "tertiary", colors: ThemeColors) => StyleSheet.create({
     button: {
         borderRadius: 15,
-        backgroundColor: variant === "primary" ? "#1b4332" : variant === "secondary" ? "transparent" : "lightgray",
+        backgroundColor: variant === "primary" ?colors.primary : variant === "secondary" ? "transparent" : "lightgray",
         padding: 12,
         width: 280,
         alignItems: "center",
         marginTop: 15,
-        borderColor: variant === "secondary" ? "#52b788": "#1b4332",
+        borderColor: variant === "secondary" ? colors.secondary : colors.primary,
         borderWidth: variant === "secondary" ? 2 : 0.5,
     },
     buttonText: {
-    color: variant === "tertiary" ? "black" : variant === "secondary" ? "#52b788" : "white",
+    color: variant === "tertiary" ? "black" : variant === "secondary" ? colors.secondary : "white",
     fontWeight: "700",
     
 },

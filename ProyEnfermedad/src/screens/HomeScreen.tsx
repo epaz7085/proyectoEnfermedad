@@ -10,7 +10,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export default function HomeScreen({ route, navigation }: Props) {
     const {user} = useAuth();
-    const {changeLanguage, language, clearLanguage} = useLanguage();
+    const {changeLanguage, language} = useLanguage();
     const { email } = route.params;
 
     const handleGoToSettings = () => {
@@ -23,11 +23,6 @@ export default function HomeScreen({ route, navigation }: Props) {
             <CustomButton
                 text={i18n.t('gotoSettings')}
                 onPress={handleGoToSettings}
-                variant="primary"
-            />
-             <CustomButton
-                text={i18n.t('Limpiar Idioma')}
-                onPress={clearLanguage}
                 variant="primary"
             />
             <Text style={styles.subtitle}> Current Language: {language}</Text>
