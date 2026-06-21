@@ -9,7 +9,7 @@ import { RootStackParamList } from '../navigation/StackNavigator';
 import { useAuth } from '../contexts/AuthContext';
 import CustomIconCircle from '../components/CustomIconCircle';
 import CustomTitle from '../components/CustomTitle';
-
+import { useTheme } from '../contexts/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Register'>;
 
@@ -21,6 +21,7 @@ export default function RegisterScreen({ navigation }: Props) {
     const [confirmPassword, setConfirmPassword] = useState("");
 
     const { register } = useAuth();
+    const { colors } = useTheme();
     const isFormValid = (): boolean => {
         if (!name.trim()) return false;
         if (!phone.trim() || !/^\d{8,}$/.test(phone)) return false;
@@ -30,7 +31,7 @@ export default function RegisterScreen({ navigation }: Props) {
         return true;
     };
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         if (!name.trim() || !phone.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
             Alert.alert("Campos incompletos", "Por favor completa todos los campos.");
             return;
@@ -43,8 +44,8 @@ export default function RegisterScreen({ navigation }: Props) {
             Alert.alert("Error", "Por favor corrige los errores antes de continuar.");
             return;
         }
-        register(name, phone, email, password);
-        navigation.navigate("Home", { email });
+        await register(name, phone, email, password);
+        navigation.navigate("UserTabs");
     };
 
     return (
