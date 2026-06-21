@@ -10,24 +10,25 @@ import CustomIconCircle from '../components/CustomIconCircle';
 import CustomTitle from '../components/CustomTitle';
 
 export default function LoginScreen({ navigation }: any) {
-    const [email, setEmail] = useState("eduardo@universidad.edu");
-    const [password, setPassword] = useState("");
+    const [email, setEmail,] = useState("joseph@gmail.com");
+    const [password, setPassword] = useState("123456");
 
     const {login} = useAuth();
 
-
-    const handleLogin = () => {
-    try {
-        const allowed = login(email);
-        if (allowed) {
-            navigation.navigate("Home", { email });
-        } else {
-            alert("No tiene acceso");
+    const handleLogin = async () => {
+        console.log("handleLogin ejecutado", email, password);
+        try {
+            const allowed = await login(email, password);
+            if (allowed) {
+                navigation.navigate("UserTabs");
+            } else {
+                alert("No tiene acceso");
+            }
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
         }
-    } catch (error) {
-        console.error("Error al iniciar sesión:", error);
-    }
-    }
+    };
+
 
     return (
         <View style={styles.container}>
@@ -35,9 +36,6 @@ export default function LoginScreen({ navigation }: any) {
 
                <CustomIconCircle iconName="heartbeat" />
                 <CustomTitle title="Iniciar Sesión" subtitle="Sistema de Gestión Médica" />
-
-                <Text style={styles.title}>Iniciar Sesión</Text>
-                <Text style={styles.subtitle}>Sistema de Gestión Médica</Text>
 
                 <CustomInput
                     type="email"
