@@ -1,9 +1,8 @@
 const getEnvVar = (key: string): string => {
   const value = process.env[key];
   if (!value) {
-    throw new Error(
-      `Falta la variable de entorno ${key}. Copia .env.example a .env y configura tus credenciales de Supabase.`
-    );
+    console.warn(`Falta la variable de entorno ${key}`);
+    return "";
   }
   return value;
 };
