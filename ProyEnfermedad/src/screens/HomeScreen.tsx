@@ -9,6 +9,7 @@ import { supabase } from "../services/supabase";
 
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
+import { generarReportePDF } from "../services/reportPDF";
 
 type Medicamento = {
     id: string;
@@ -142,6 +143,13 @@ export default function HomeScreen() {
             >
                 <Text style={{ color: 'white', fontWeight: '500' }}>+ Registrar signos</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity
+                onPress={() => generarReportePDF(user?.email ?? "", medicamentos, signosVitales)}
+                style={[styles.card, { backgroundColor: colors.secondary, alignItems: "center" }]}
+            >
+  <Text style={{ color: "white", fontWeight: "500" }}>Exportar reporte PDF</Text>
+</TouchableOpacity>
 
             <Modal visible={modalSignos} animationType="slide" transparent>
                 <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.modalOverlay}>
