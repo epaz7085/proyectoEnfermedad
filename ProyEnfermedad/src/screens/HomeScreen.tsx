@@ -7,6 +7,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { supabase } from "../services/supabase";
 
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
+import { setUserProfile } from "../store/userProfileSlice";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
 import { generarReportePDF } from "../services/reportPDF";
@@ -27,6 +30,14 @@ export default function HomeScreen() {
     const [signosVitales, setSignosVitales] = useState<{presion: string, glucosa: string, peso: string} | null>(null);
     const [modalSignos, setModalSignos] = useState(false);
     const { user } = useAuth();
+    const dispatch = useDispatch();
+    const userProfile = useSelector((state: RootState) => state.userProfile);
+
+useEffect(() => {
+    if (user?.email) {
+        dispatch(setUserProfile({ email: user.email, displayName: user.email }));
+    }
+}, [user]);
     
     const { colors } = useTheme();
 
